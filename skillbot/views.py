@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from django.http.response import HttpResponse
+from skillbot.models import our_user
 
 import json, requests, random, re
 from pprint import pprint
@@ -27,17 +28,62 @@ client=Wit(access_token=wit_access_token)
 
 # Create your views here.
 
-PAGE_ACCESS_TOKEN = "EAANxRXY346UBADPa9SHZCLpGtCTAhTKMz94ILv55SJh0GM4qLDDOPSIdnCuKjpO9RBZA6o2y2MQYxhfR8hCLc79MC2eeMFggAjLWzfFkK0dKVLndcVkMZBwItmPZCIiCcvZCI6Q3ZBYgyGsNEpICJSNM95guPOlCNB5R62SjHAywZDZD"
+PAGE_ACCESS_TOKEN = "EAANxRXY346UBAEVTLraCTgYtC4jojhjEmjOtc2cfOMdv0ZArdSkBHTtiSWwq7nNFrJlfZC9OunPLTdCtOtXnGPJGEZBxZCtdG7HcZC5IK6UFLV5k0ZBqQODp3JZBmD4VXakyvgcs4cgmrWEToasukJJ7nWsUoMkUR9lkJR01r6LZCwZDZD"
 VERIFY_TOKEN = "123456789"
 
 
+all_intents=['Greeting','learn_skill','set_reminder','time_of_reminder','get_a_buddy','connect_with_buddy']
 
-def generate_response(characteristeics, user_details):
+
+def do_actions(characteristics, user_details, fbid):
+    pprint(characteristics)
+    intent=characteristics[0]
+    if intent==all_intents[0]:
+        #create new model instance
+        try:
+            old_user=our_user.objects.filter(fbid=fbid).first()
+        except:
+            #make provision for old users
+            first_name=user_details['first_name']
+            last_name=user_details['last_name']
+            profile_pic=user_details['profile_pic']
+            new_user=our_user(first_name=first_name, last_name=last_name, fbid=fbid, profile_pics=profile_pic)
+            new_user.save()
+        
+    elif intent==all_intents[1]:
+        #retrieve the persons model instance and add skill
+        skill=characteristics[1]['skill:skill']
+        old_user=our_user.objects.filter(fbid=fbid).first()
+        old_user.skill=skill
+        old_user.save()
+
+    elif intent==all_intents[2]:
+        #retrieve the persons model instance and add duration and frequency
+        duration=characteristics[1]['wit$datetime:datetime']
+        frequency=characteristics[1]['frequency:frequency']
+        old_user=our_user.objects.filter(fbid=fbid).first()
+        old_user.Duration=duration
+        old_user.frequency=frequency
+        old_user.save()
+
+    elif intent == all_intents[3]:
+        #retrieve the persons model instance and add time_of_reminder
+        time_of_reminder=characteristics[1]['day_period:day_period']
+        old_user=our_user.objects.filter(fbid=fbid).first()
+        old_user.time_of_reminder=time_of_reminder
+        old_user.save()
+
+    else:
+        pass
+
+
+
+def generate_response(characteristics, user_details):
     name=user_details['first_name']
-    intent=characteristeics[0]
+    intent=characteristics[0]
 
     if intent == None:
-        response='i dont understand what u are saying oga'
+        response='Hey {} I do understand what u are saying'.format(name) #add a try something like clause
     else:
         response=random.choice(Response[intent])
 
@@ -73,11 +119,14 @@ def get_xter(wit_response):
 
 
 # This function sends the message back to the user
-def post_facebook_message(fbid, recevied_message):           
+def post_facebook_message(fbid, message_to_be_sent):           
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token={}'.format(PAGE_ACCESS_TOKEN)
-    response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":recevied_message}})
+    response_msg = json.dumps({"recipient":{"id":fbid}, "message":{"text":message_to_be_sent}})
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"},data=response_msg)
     pprint(status.json())
+
+
+
 
 
 #The bot view
@@ -121,11 +170,6 @@ class BotView(generic.View):
 
                     characteristics=get_xter(wit_response)
 
-
-                    #define a functioln to generate response
-                    
-
-
                     #GEt user details
                     fbid=message['sender']['id']
                     user_details_url = "https://graph.facebook.com/v2.6/{}".format(fbid)
@@ -135,10 +179,12 @@ class BotView(generic.View):
                     message_to_be_sent=generate_response(characteristics, user_details)
 
                     print(message_to_be_sent)
+                    
                     #print user details
                     pprint(user_details)
 
-                   
+                    #Do model actions
+                    do_actions(characteristics, user_details, fbid)
 
     				#Send Message
                     post_facebook_message(fbid, message_to_be_sent)  
