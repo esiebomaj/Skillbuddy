@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import BotView, debugview
+from .views import BotView
 
 
 urlpatterns = [

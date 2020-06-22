@@ -25,7 +25,7 @@ SECRET_KEY = ')c(s@b)p)wdy+7sw*zqm!=9%d8hcj=xktn6h+*x&r7jb)ks35g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['000ec518999b.ngrok.io','localhost']
+ALLOWED_HOSTS = ['skillbuddy.herokuapp.com','localhost']
 
 
 
@@ -121,12 +121,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-REDIS_HOST = 'localhost'
-REDIS_PORT = '6379'
-BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
-CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# REDIS_HOST = 'localhost'
+# REDIS_PORT = '6379'
+# BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
+# CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 
+REDIS_HOST = 'ec2-34-224-111-244.compute-1.amazonaws.com'
+REDIS_PORT = '27139'
+BROKER_URL = 'redis://h:pc13c62dbf6eb60237380541ab56f50327141c9cd32bd78321e31d830f620657e@ec2-34-224-111-244.compute-1.amazonaws.com:27139'
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
+CELERY_RESULT_BACKEND = 'redis://h:pc13c62dbf6eb60237380541ab56f50327141c9cd32bd78321e31d830f620657e@ec2-34-224-111-244.compute-1.amazonaws.com:27139'
 
 
 EMAIL_HOST='smtp.gmail.com'
