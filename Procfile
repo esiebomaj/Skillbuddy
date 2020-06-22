@@ -1,2 +1,2 @@
 web: gunicorn skillbuddy.wsgi --log-file -
-worker: celery -A skillbuddy worker -l info -P gevent
+beat: celery -A skillbuddy beat -l info & worker: celery -A skillbuddy worker -l info -P gevent & wait -n
