@@ -25,7 +25,7 @@ SECRET_KEY = ')c(s@b)p)wdy+7sw*zqm!=9%d8hcj=xktn6h+*x&r7jb)ks35g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['b26c06b11c1f.ngrok.io','localhost']
+ALLOWED_HOSTS = ['000ec518999b.ngrok.io','localhost']
 
 
 
@@ -120,3 +120,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = '6379'
+BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+
+
+
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = os.environ.get('gmail')
+EMAIL_HOST_PASSWORD = os.environ.get('gmail_password')
+EMAIL_USE_TLS= True
+
+
+os.environ.setdefault('FORKED_BY_MULTIPROCESSING', '1')
