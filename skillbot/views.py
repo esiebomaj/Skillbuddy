@@ -14,6 +14,10 @@ from wit import Wit
 from .response import Response
 import random
 
+from datetime import datetime, timedelta
+from skillbot.models  import our_user
+
+
 
 
 # ===================
@@ -190,3 +194,23 @@ class BotView(generic.View):
                     post_facebook_message(fbid, message_to_be_sent)  
 
         return HttpResponse()
+
+# def debugview(request):
+#     present_date_time=datetime.now()
+#     present_date_time_hours=present_date_time-timedelta(
+#         minutes=present_date_time.minute, 
+#         seconds=present_date_time.second, 
+#         microseconds=present_date_time.microsecond)
+#     all_users=our_user.objects.all()
+#     for user in all_users:
+#         notify_times=user.get_notify_times()
+#         print(present_date_time_hours)
+#         print(notify_times)
+
+#         if present_date_time_hours in notify_times:
+#             print('Yass!! go ahead and send notificatons')
+                    
+#         else:
+#             print('no date_time matches')
+
+#     return HttpResponse('Hello')
