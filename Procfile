@@ -1,2 +1,3 @@
 web: gunicorn skillbuddy.wsgi --log-file -
-celery -A skillbuddy beat -l info
+worker: celery -A skillbuddy worker -events -loglevel info 
+beat: celery -A skillbuddy beat
