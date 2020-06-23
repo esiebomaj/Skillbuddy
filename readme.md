@@ -2,11 +2,7 @@
 
 ### A Messanger based AI (Wit.ai) powered app (chatbot). built using python/django frame-work
 
-<br>
-
-#### Willingness to learn a skill is common, but consistency in developing it remains lacking. Skill Buddy uses A.I to solve this problem and creates a community of learners for better self improvement.
-<br>
-<br>
+Willingness to learn a skill is common, but consistency in developing it remains lacking. Skill Buddy uses A.I to solve this problem and creates a community of learners for better self improvement.
 
 ## Deployment
 The app was deployed using Heroku
