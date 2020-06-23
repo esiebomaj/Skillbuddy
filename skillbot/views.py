@@ -104,12 +104,12 @@ def generate_response(characteristics, user_details):
         response='Hey {} I do not understand what u are saying'.format(name) #add a try something like clause
 
     elif intent==all_intents[4]:
-        if sentiment=='nagative':
+        if sentiment=='negative':
             response=Response[intent][1]
         elif sentiment=='positive':
             response=Response[intent][0]
         else:
-            response='we dont understand your input try again'
+            response='we don\'t understand your input say something like yes i have a partner or no i don\'t'
 
     else:
         response=random.choice(Response[intent])
