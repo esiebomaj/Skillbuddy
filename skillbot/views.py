@@ -106,7 +106,7 @@ def generate_response(characteristics, user_details):
     elif intent==all_intents[4]:
         if sentiment=='nagative':
             response=Response[intent][1]
-        elif sentiment='positive':
+        elif sentiment=='positive':
             response=Response[intent][0]
         else:
             response='we dont understand your input try again'
