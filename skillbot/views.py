@@ -44,6 +44,17 @@ all_intents=['Greeting','learn_skill','set_reminder','time_of_reminder','get_a_b
 def do_actions(characteristics, user_details, fbid):
     pprint(characteristics)
     intent=characteristics[0]
+
+    try:
+        old_user = our_user.objects.get(fbid=fbid)
+    except:
+        #make provision for old users
+        first_name=user_details['first_name']
+        last_name=user_details['last_name']
+        profile_pic=user_details['profile_pic']
+        new_user=our_user(first_name=first_name, last_name=last_name, fbid=fbid, profile_pics=profile_pic)
+        new_user.save(commit=True)
+
     if intent==all_intents[0]:
         #create new model instance
         try:
