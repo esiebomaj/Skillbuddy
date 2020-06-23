@@ -98,9 +98,19 @@ def do_actions(characteristics, user_details, fbid):
 def generate_response(characteristics, user_details):
     name=user_details['first_name']
     intent=characteristics[0]
+    sentiment=characteristics[2]
 
     if intent == None:
-        response='Hey {} I do understand what u are saying'.format(name) #add a try something like clause
+        response='Hey {} I do not understand what u are saying'.format(name) #add a try something like clause
+
+    elif intent==all_intents[4]:
+        if sentiment=='nagative':
+            response=Response[intent][1]
+        elif sentiment='positive':
+            response=Response[intent][0]
+        else:
+            response='we dont understand your input try again'
+
     else:
         response=random.choice(Response[intent])
 
