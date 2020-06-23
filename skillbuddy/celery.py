@@ -13,7 +13,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'reminder': {
         'task': 'skillbot.tasks.reminder',
-        'schedule': crontab(),  # for testing purposes
+        'schedule': crontab(hour='6,12,18', minute=1),  # for testing purposes
     },
     
 }
