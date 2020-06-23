@@ -52,14 +52,14 @@ def do_actions(characteristics, user_details, fbid):
             last_name=user_details['last_name']
             profile_pic=user_details['profile_pic']
             new_user=our_user(first_name=first_name, last_name=last_name, fbid=fbid, profile_pics=profile_pic)
-            new_user.save()
+            new_user.save(commit=True)
         
     elif intent==all_intents[1]:
         #retrieve the persons model instance and add skill
         skill=characteristics[1]['skill:skill']
         old_user=our_user.objects.filter(fbid=fbid).first()
         old_user.skill=skill
-        old_user.save()
+        old_user.save(commit=True)
 
     elif intent==all_intents[2]:
         #retrieve the persons model instance and add duration and frequency
@@ -68,14 +68,14 @@ def do_actions(characteristics, user_details, fbid):
         old_user=our_user.objects.filter(fbid=fbid).first()
         old_user.Duration=duration
         old_user.frequency=frequency
-        old_user.save()
+        old_user.save(commit=True)
 
     elif intent == all_intents[3]:
         #retrieve the persons model instance and add time_of_reminder
         time_of_reminder=characteristics[1]['day_period:day_period']
         old_user=our_user.objects.filter(fbid=fbid).first()
         old_user.time_of_reminder=time_of_reminder
-        old_user.save()
+        old_user.save(commit=True)
 
     else:
         pass
