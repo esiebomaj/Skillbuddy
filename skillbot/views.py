@@ -76,7 +76,7 @@ def do_actions(characteristics, user_details, fbid):
 
     elif intent==all_intents[2]:
         #retrieve the persons model instance and add duration and frequency
-        duration=characteristics[1]['wit$datetime:datetime']
+        duration=characteristics[1]['wit$duration:duration']
         frequency=characteristics[1]['frequency:frequency']
         old_user=our_user.objects.filter(fbid=fbid).first()
         old_user.Duration=duration
