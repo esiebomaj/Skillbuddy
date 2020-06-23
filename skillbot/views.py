@@ -17,6 +17,8 @@ import random
 from datetime import datetime, timedelta
 from skillbot.models  import our_user
 
+from django.shortcuts import get_object_or_404
+
 
 
 
@@ -45,7 +47,7 @@ def do_actions(characteristics, user_details, fbid):
     if intent==all_intents[0]:
         #create new model instance
         try:
-            old_user=our_user.objects.filter(fbid=fbid).first()
+            old_user = our_user.objects.get(fbid=fbid)
         except:
             #make provision for old users
             first_name=user_details['first_name']
