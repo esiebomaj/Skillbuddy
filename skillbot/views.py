@@ -203,8 +203,10 @@ class BotView(generic.View):
                     user_details_params = {'fields':'first_name,last_name,profile_pic', 'access_token':'{}'.format(PAGE_ACCESS_TOKEN)}
                     user_details = requests.get(user_details_url, user_details_params).json()
  
-                    message_to_be_sent=generate_response(characteristics, user_details)
-
+                    try:
+                        message_to_be_sent=generate_response(characteristics, user_details)
+                    except:
+                        return HttpResponse()
                     print(message_to_be_sent)
                     
                     #print user details
