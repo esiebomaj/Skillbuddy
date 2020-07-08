@@ -192,7 +192,10 @@ class BotView(generic.View):
                     # ==================================
                     # integrate Wit.ai bot here
                     # ==================================
-                    wit_response=client.message(recieved_messsage)
+                    try:
+                        wit_response=client.message(recieved_messsage)
+                    except:
+                        return HttpResponse()
                     pprint(wit_response)
 
                     characteristics=get_xter(wit_response)
